@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Show List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Genres</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let show of shows">
+        <td>{{ show.name }}</td>
+        <td>{{ show.genre }}</td>
+        <td>{{ show.summary }}</td>
+        <td>Show Detail</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
