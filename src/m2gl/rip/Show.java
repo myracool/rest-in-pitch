@@ -1,29 +1,41 @@
 package m2gl.rip;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import m2gl.tvmaze.TVMazeShow;
 
 @JsonIgnoreProperties({"_id"})
 public class Show {
+	@JsonProperty("id")
 	private long id;
+	@JsonProperty("name")
 	private String name;
-	private List<String> genres;
-	private Date premiere;
+	@JsonProperty("genres")
+	private List<String> genres = new ArrayList<String>();
+	@JsonProperty("premiere")
+	private String premiere;
+	@JsonProperty("official site")
 	private String offsite;
-	private float rating;
+	@JsonProperty("rating")
+	private double rating;
+	@JsonProperty("network")
 	private String network;
+	@JsonProperty("country")
 	private String country;
+	@JsonProperty("image")
 	private String image;
+	@JsonProperty("summary")
 	private String summary;
 	
 	public Show() {
-		genres = new ArrayList<String>();
 	}
 
-	public Show(long id, String name, List<String> genres, Date premiere, String offsite, float rating, String network,
+	public Show(long id, String name, List<String> genres, String premiere, String offsite, float rating, String network,
 			String country, String image, String summary) {
 		this.id = id;
 		this.name = name;
@@ -37,82 +49,115 @@ public class Show {
 		this.summary = summary;
 	}
 	
+	public Show(TVMazeShow tvMazeShow) {
+		this.id = tvMazeShow.getId();
+		this.name = tvMazeShow.getName();
+		this.genres = tvMazeShow.getGenres();
+		this.premiere = tvMazeShow.getPremiered();
+		this.offsite = tvMazeShow.getOfficialSite();
+		this.rating = tvMazeShow.getRating().getAverage();
+		this.network = tvMazeShow.getNetwork().getName();
+		this.country = tvMazeShow.getNetwork().getCountry().getName();
+		this.image = tvMazeShow.getImage().getMedium();
+		this.summary = tvMazeShow.getSummary();
+	}
+	
+	@JsonProperty("id")
 	public long getId() {
 		return id;
 	}
 
+	@JsonProperty("id")
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	@JsonProperty("name")
 	public String getName() {
 		return name;
 	}
 
+	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@JsonProperty("genres")
 	public List<String> getGenres() {
 		return genres;
 	}
 
+	@JsonProperty("genres")
 	public void setGenres(List<String> genres) {
 		this.genres = genres;
 	}
 
-	public Date getPremiere() {
+	@JsonProperty("premiere")
+	public String getPremiere() {
 		return premiere;
 	}
 
-	public void setPremiere(Date premiere) {
+	@JsonProperty("premiere")
+	public void setPremiere(String premiere) {
 		this.premiere = premiere;
 	}
 
+	@JsonProperty("official site")
 	public String getOffsite() {
 		return offsite;
 	}
 
+	@JsonProperty("official site")
 	public void setOffsite(String offsite) {
 		this.offsite = offsite;
 	}
 
-	public float getRating() {
+	@JsonProperty("rating")
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(float rating) {
+	@JsonProperty("rating")
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
+	@JsonProperty("network")
 	public String getNetwork() {
 		return network;
 	}
 
+	@JsonProperty("network")
 	public void setNetwork(String network) {
 		this.network = network;
 	}
 
+	@JsonProperty("country")
 	public String getCountry() {
 		return country;
 	}
 
+	@JsonProperty("country")
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
+	@JsonProperty("image")
 	public String getImage() {
 		return image;
 	}
 
+	@JsonProperty("image")
 	public void setImage(String image) {
 		this.image = image;
 	}
 
+	@JsonProperty("summary")
 	public String getSummary() {
 		return summary;
 	}
 
+	@JsonProperty("summary")
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
