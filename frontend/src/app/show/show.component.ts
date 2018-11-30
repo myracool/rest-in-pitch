@@ -12,7 +12,7 @@ export class ShowComponent implements OnInit {
 
   ngOnInit() {
     this.http.get('/shows').subscribe(data => {
-    this.contacts = data;
+    this.shows = data;
   });
   }
 

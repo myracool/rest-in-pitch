@@ -30,7 +30,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
     RouterModule.forRoot(
    appRoutes,
    { enableTracing: true } // <-- debugging purposes only
