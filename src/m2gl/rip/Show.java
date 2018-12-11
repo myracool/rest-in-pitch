@@ -3,12 +3,16 @@ package m2gl.rip;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import m2gl.tvmaze.TVMazeShow;
 
+@JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties({"_id"})
 public class Show {
 	@JsonProperty("id")
@@ -50,15 +54,25 @@ public class Show {
 	}
 	
 	public Show(TVMazeShow tvMazeShow) {
+		
 		this.id = tvMazeShow.getId();
 		this.name = tvMazeShow.getName();
 		this.genres = tvMazeShow.getGenres();
 		this.premiere = tvMazeShow.getPremiered();
 		this.offsite = tvMazeShow.getOfficialSite();
-		this.rating = tvMazeShow.getRating().getAverage();
-		this.network = tvMazeShow.getNetwork().getName();
-		this.country = tvMazeShow.getNetwork().getCountry().getName();
-		this.image = tvMazeShow.getImage().getMedium();
+		this.rating = Optional.ofNullable(tvMazeShow.getRating())
+				.map(r -> r.getAverage())
+				.orElse(0.0);
+		this.network = Optional.ofNullable(tvMazeShow.getNetwork())
+				.map(n -> n.getName())
+				.orElse("");
+		this.country = Optional.ofNullable(tvMazeShow.getNetwork())
+				.map(n -> n.getCountry())
+				.map(c -> c.getName())
+				.orElse("");
+		this.image = Optional.ofNullable(tvMazeShow.getImage())
+				.map(i -> i.getMedium())
+				.orElse("");
 		this.summary = tvMazeShow.getSummary();
 	}
 	
