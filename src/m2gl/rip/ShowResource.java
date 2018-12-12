@@ -103,7 +103,6 @@ public class ShowResource {
     	    	//}while(sh.getName() == null || sh.getName() == "Not Found");
     	    	showList.add(sh);
     	    }    	  
-
     	    /*
  			 ArrayList<Integer> list = new ArrayList<>();
     	     for (int i = 0; i < n; i++) {
