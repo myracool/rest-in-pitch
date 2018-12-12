@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>{{ show.name }}</h1>
+
+  <div class="card border-dark mb-3" >
+  <div class="card-header">Details : </div>
+  <div class="card-body">
+    <!-- <h4 class="card-title">Dark card title</h4> -->
+      <img class="rounded" src={{show.image}} alt="show image" />
+    <dl class="list">
+      <span class="badge badge-success">{{ show.genres[0] }}</span>
+      <span class="badge badge-success">{{ show.genres[1] }}</span>
+      <span class="badge badge-success">{{ show.genres[2] }}</span>
+    <dt>Country : </dt>
+    <dd>{{ show.country }}</dd>
+    <dt>Premiere : </dt>
+    <dd>{{ show.premiere }}</dd>
+    <dt>Offsite : </dt>
+    <dd>{{ show.offsite }}</dd>
+    <dt>Rating</dt>
+    <dd>{{ show.rating }}</dd>
+    <dt>Summary</dt>
+    <dd>{{ show.summary }}</dd>
+
+    </dl>
+  </div>
+
+</div>
+</div>

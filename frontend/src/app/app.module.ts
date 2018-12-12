@@ -9,12 +9,18 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { RouterModule, Routes } from '@angular/router';
+import { ShowDetailComponent } from './show-detail/show-detail.component';
 
 const appRoutes: Routes = [
   {
     path: 'show',
     component: ShowComponent,
     data: { title: 'Show List' }
+  },
+  {
+    path: 'show-detail/:id',
+    component: ShowDetailComponent,
+    data: { title: 'Show Details' }
   },
   { path: '',
     redirectTo: '/show',
@@ -25,7 +31,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ShowComponent
+    ShowComponent,
+    ShowDetailComponent
   ],
   imports: [
     BrowserModule,
