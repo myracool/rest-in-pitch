@@ -51,9 +51,21 @@ public class ShowResource {
     		/*Iterator<JsonNode> it = StreamSupport.stream(mapper.readTree(new URL("http://api.tvmaze.com/updates/shows")).spliterator() , false)
     	            .limit(10)
     	            .iterator();*/
-    		ArrayList<Integer> list = new ArrayList<>();
+    		
     	    Random random = new Random();
-    	    for (int i = 0; i < n; i++) {
+    	    int id = 0;
+    	    Show sh;
+    	    for (int i = 1; i < n; i++) {
+    	    	//do{
+	    	    //	id = random.nextInt(38350);
+	    	    	sh = getShow(i);
+    	    	//}while(sh.getName() == null || sh.getName() == "Not Found");
+    	    	showList.add(sh);
+    	    }    	  
+
+    	    /*
+ 			 ArrayList<Integer> list = new ArrayList<>();
+    	     for (int i = 0; i < n; i++) {
     	        list.add(random.nextInt(38350));
     	    }
     	    Iterator<Integer> it = list.iterator();
@@ -61,7 +73,7 @@ public class ShowResource {
     			int i = it.next();
     			Show sh = getShow(i);
     			showList.add(sh);
-    		}
+    		}*/
     	    return showList;
     	    
 		} catch (Exception e) {
