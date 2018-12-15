@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.jsoup.Jsoup;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -73,7 +75,10 @@ public class Show {
 		this.image = Optional.ofNullable(tvMazeShow.getImage())
 				.map(i -> i.getMedium())
 				.orElse("");
-		this.summary = tvMazeShow.getSummary();
+		String tmpSummary = tvMazeShow.getSummary();
+		if (tmpSummary != null && !tmpSummary.isEmpty()) {
+			this.summary = Jsoup.parse(tmpSummary).text();
+		}
 	}
 	
 	@JsonProperty("id")

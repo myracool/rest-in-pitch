@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.StreamSupport;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
@@ -63,6 +64,29 @@ public class ShowResource {
     }
 	
 	@GET
+	@Path("/shows/page/{pageid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Show> getPage(@QueryParam("pageid") int pageid) {
+		ObjectMapper mapper = new MyObjectMapperProvider().getContext(Properties.class);
+		if (pageid >= 0 && pageid <= 160) {
+			try {
+				List<Show> showList = new ArrayList<Show>();
+				Iterator<JsonNode> it = StreamSupport.stream(mapper.readTree(new URL("http://api.tvmaze.com/shows?page=" + pageid)).spliterator(), false)
+				        .iterator();
+				while (it.hasNext()) {
+					JsonNode j = it.next();
+					Show sh = new Show(mapper.treeToValue(j, TVMazeShow.class));
+					showList.add(sh);
+				}
+				return showList;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		throw new InvalidParameterException("Invalid page provided");
+	}
+	
+	@GET
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Show> search(@QueryParam("name") String name, @QueryParam("genre") List<String> genre) {
@@ -70,7 +94,7 @@ public class ShowResource {
 		try {
 			genre = (genre != null && !genre.isEmpty()) ? genre : null;
 			List<Show> showList = new ArrayList<Show>();
-			Iterator<JsonNode> it = StreamSupport.stream(mapper.readTree(new URL("http://api.tvmaze.com/search/shows/?q=" + name)).spliterator() , false)
+			Iterator<JsonNode> it = StreamSupport.stream(mapper.readTree(new URL("http://api.tvmaze.com/search/shows/?q=" + name)).spliterator(), false)
 			        .iterator();
 			while (it.hasNext()) {
 				JsonNode j = it.next();
@@ -88,32 +112,20 @@ public class ShowResource {
 
 	@GET
 	@Path("/rand/{n}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-    public List<Show> getRand(@PathParam("n") int n) {
+    public List<Show> getRand(@PathParam("n") int n, List<Integer> arr) {
     	try {
+    		arr = (arr != null && !arr.isEmpty()) ? arr : new ArrayList<Integer>();
+    		List<Show> showPage = new ArrayList<Show>();
     		List<Show> showList = new ArrayList<Show>();
-    		ArrayList<Integer> list = new ArrayList<>();
     	    Random random = new Random();
-    	    int id = 0;
-    	    Show sh;
-    	    for (int i = 1; i < n; i++) {
-    	    	//do{
-	    	    //	id = random.nextInt(38350);
-	    	    	sh = getShow(i);
-    	    	//}while(sh.getName() == null || sh.getName() == "Not Found");
+    	    showPage = getPage(random.nextInt(160));
+    	    for (int i = 0 ; i < n ; ++i) {
+    	    	int id = random.nextInt(showPage.size());
+    	    	Show sh = showPage.remove(id);
     	    	showList.add(sh);
-    	    }    	  
-    	    /*
- 			 ArrayList<Integer> list = new ArrayList<>();
-    	     for (int i = 0; i < n; i++) {
-    	        list.add(random.nextInt(38350));
-    	    }
-    	    Iterator<Integer> it = list.iterator();
-    		while (it.hasNext()) {
-    			int i = it.next();
-    			Show sh = getShow(i);
-    			showList.add(sh);
-    		}*/
+    	    }	  
     	    return showList;
     	    
 		} catch (Exception e) {
