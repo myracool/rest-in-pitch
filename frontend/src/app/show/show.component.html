@@ -7,7 +7,7 @@
       <div class="card-header">{{ show.name }}</div>
       <div class="card-body">
         <div class="text-center">
-          <img class="rounded" src={{show.image}} alt="show image" />
+	      <img class="rounded" src={{show.image}} onerror="this.src='./assets/unavailable.png'" alt="show image" />
         </div>
         <!-- <h6 class="card-title" class="font-weight-bold">Summary :</h6> -->
         <p class="card-text" class="text-muted" class="text-truncate"> {{show.summary}}</p>

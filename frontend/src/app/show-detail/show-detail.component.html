@@ -5,7 +5,7 @@
   <div class="card-header">Details : </div>
   <div class="card-body">
     <!-- <h4 class="card-title">Dark card title</h4> -->
-      <img class="rounded" src={{show.image}} alt="show image" />
+      <img class="rounded" src={{show.image}} onerror="this.src='./assets/unavailable.png'" alt="show image" />
     <dl class="list">
       <span class="badge badge-success">{{ show.genres[0] }}</span>
       <span class="badge badge-success">{{ show.genres[1] }}</span>
