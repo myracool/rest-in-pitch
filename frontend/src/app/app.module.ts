@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { RouterModule, Routes } from '@angular/router';
 import { ShowDetailComponent } from './show-detail/show-detail.component';
+import { ShowSearchComponent } from './show-search/show-search.component';
 
 const appRoutes: Routes = [
   {
@@ -22,6 +23,11 @@ const appRoutes: Routes = [
     component: ShowDetailComponent,
     data: { title: 'Show Details' }
   },
+  {
+    path: 'show-search?q=:query',
+    component: ShowSearchComponent,
+    data: { title: 'Show Search' }
+  },
   { path: '',
     redirectTo: '/show',
     pathMatch: 'full'
@@ -32,7 +38,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ShowComponent,
-    ShowDetailComponent
+    ShowDetailComponent,
+    ShowSearchComponent
   ],
   imports: [
     BrowserModule,

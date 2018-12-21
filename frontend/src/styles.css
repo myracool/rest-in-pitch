@@ -60,6 +60,34 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* SEARCH BAR*/
+.searchbar{
+ margin-bottom: auto;
+ margin-top: auto;
+ height: 60px;
+ background-color: #353b48;
+ border-radius: 30px;
+ padding: 10px;
+ }
+
+ .search_input{
+ color: white;
+ border: 0;
+ outline: 0;
+ background: none;
+ line-height: 40px;
+ }
+
+ .fa-search{
+ height: 50px;
+ line-height: 40px;
+ width: 50px;
+ float: right;
+ display: flex;
+ /* border-radius: 50%; */
+ color:white;
+ }
+
 @-ms-viewport {
   width: device-width;
 }
