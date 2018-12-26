@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     data: { title: 'Show Details' }
   },
   {
-    path: 'show-search?q=:query',
+    path: 'show-search',
     component: ShowSearchComponent,
     data: { title: 'Show Search' }
   },

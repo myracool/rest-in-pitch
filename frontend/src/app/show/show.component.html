@@ -2,18 +2,18 @@
 <div class="container h-100">
   <h1>Welcome ! This is Rest-In-Pitch</h1>
       <div class="searchbar">
-        <input class="search_input" type="text" name="" placeholder="Search...">
-        <a [routerLink]="['/show-search']" [queryParams]="{prop: name}"><i class="fa fa-search"></i></a>
+        <input class="search_input" id="search" type="text" name="" placeholder="Search..." />
+        <!-- #searchBox (input)="search(searchBox.value)" -->
+        <a [routerLink]="['/show-search']"><i class="fa fa-search"></i></a>
+        <!--(click)="onSearch(search.value)"  -->
       </div>
 </div>
-<div class="container h-100">
-
-
-
+<div class="container ">
+  <hr class="my-4">
   <div class="row" >
     <div class="col-auto mb-3" *ngFor="let show of shows">
       <div class="card text-white bg-secondary mb-3" style="width: 18rem; height: 30rem;">
-      <div class="card-header">{{ show.name }}</div>
+      <div class="card-header"><p class="text-truncate">{{ show.name }}</p></div>
       <div class="card-body">
         <div class="text-center">
 	      <img class="rounded" src={{show.image}} onerror="this.src='./assets/unavailable.png'" alt="show image" />
