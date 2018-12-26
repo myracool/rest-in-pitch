@@ -2,10 +2,10 @@
 <div class="container h-100">
   <h1>Welcome ! This is Rest-In-Pitch</h1>
       <div class="searchbar">
-        <input class="search_input" id="search" type="text" name="" placeholder="Search..." />
-        <!-- #searchBox (input)="search(searchBox.value)" -->
+        <input class="search_input" id="search" type="text" name="" placeholder="Search..." [(ngModel)]="search" />
+        <!-- (ngModelChange)="change()" -->
         <a [routerLink]="['/show-search']"><i class="fa fa-search"></i></a>
-        <!--(click)="onSearch(search.value)"  -->
+        <!--  -->
       </div>
 </div>
 <div class="container ">

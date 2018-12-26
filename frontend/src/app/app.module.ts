@@ -44,6 +44,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule,
     RouterModule.forRoot(
    appRoutes,

@@ -10,23 +10,19 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowSearchComponent implements OnInit {
   shows: any;
+  search= "mary";
+
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
-     this.getSearchShow("mary");
-  }
-  // onSearch(term:string) {
-  //   this.router.navigate(['http://localhost:8080/rest-in-pitch/rest/search', {term: term});
-  // }
-
-  getSearchShow(queryparam) {
-    this.http.get('http://localhost:8080/rest-in-pitch/rest/search',{
-      params: {'name' : queryparam}
+    //var res = ((document.getElementById("num1") as HTMLInputElement).value);
+    this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
+    {
+      params: {'name' : this.search}
       }).subscribe(data => {
         this.shows = data;
       });
   }
-
 
 
 }
