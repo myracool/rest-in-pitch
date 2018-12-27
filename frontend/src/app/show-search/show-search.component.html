@@ -1,6 +1,7 @@
 
-<h1>Results : </h1>
-
+<div class="col-auto mb-3" *ngFor="let ress of res">
+<h1>Results : {{ ress }}</h1>
+</div>
 <div class="row" >
   <div class="col-auto mb-3" *ngFor="let show of shows">
     <div class="card text-white bg-secondary mb-3" style="width: 18rem; height: 30rem;">

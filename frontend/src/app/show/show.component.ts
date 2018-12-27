@@ -11,6 +11,7 @@ export class ShowComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    let str : string = (<HTMLInputElement>document.getElementById("search")).value;
     this.http.get('http://localhost:8080/rest-in-pitch/rest/rand/10').subscribe(data => {
     this.shows = data;
   });

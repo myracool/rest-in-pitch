@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewChild, Component, OnInit } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
@@ -10,15 +10,16 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowSearchComponent implements OnInit {
   shows: any;
-  search= "mary";
+  //search= "mary";
+  //@ViewChild('res') res;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
-    //var res = ((document.getElementById("num1") as HTMLInputElement).value);
+    // let str : string = (<HTMLInputElement>document.getElementById("search")).value;
     this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
     {
-      params: {'name' : this.search}
+      params: {'name' : this.res._element.nativeElement}
       }).subscribe(data => {
         this.shows = data;
       });
