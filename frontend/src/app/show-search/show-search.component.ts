@@ -10,6 +10,7 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowSearchComponent implements OnInit {
   shows: any;
+  name = "coucou"
   //search= "mary";
   //@ViewChild('res') res;
 
@@ -17,9 +18,13 @@ export class ShowSearchComponent implements OnInit {
 
   ngOnInit() {
     // let str : string = (<HTMLInputElement>document.getElementById("search")).value;
+    //this.getSearchShow(this.route.snapshot.queryParams["name"]);
+  }
+
+  getSearchShow(query) {
     this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
     {
-      params: {'name' : this.res._element.nativeElement}
+      params: {'name' : query}
       }).subscribe(data => {
         this.shows = data;
       });
