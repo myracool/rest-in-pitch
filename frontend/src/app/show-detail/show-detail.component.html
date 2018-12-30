@@ -1,27 +1,48 @@
 <div class="container">
+<!-- <img class="rounded" src={{show.image}} onerror="this.src='./assets/unavailable.png'" alt="show image"style="opacity:0.2;" /> -->
+<div class="text-center">
   <h1>{{ show.name }}</h1>
+</div>
+  <div class="card border-light mb-3" >
 
-  <div class="card border-dark mb-3" >
-  <div class="card-header">Details : </div>
-  <div class="card-body">
-    <!-- <h4 class="card-title">Dark card title</h4> -->
+    <div class="card-body">
       <img class="rounded" src={{show.image}} onerror="this.src='./assets/unavailable.png'" alt="show image" />
-    <dl class="list">
+      <div  class="sm">
       <span class="badge badge-success">{{ show.genres[0] }}</span>
       <span class="badge badge-success">{{ show.genres[1] }}</span>
       <span class="badge badge-success">{{ show.genres[2] }}</span>
-    <dt>Country : </dt>
-    <dd>{{ show.country }}</dd>
-    <dt>Premiere : </dt>
-    <dd>{{ show.premiere }}</dd>
-    <dt>Offsite : </dt>
-    <dd>{{ show.offsite }}</dd>
-    <dt>Rating</dt>
-    <dd>{{ show.rating }}</dd>
-    <dt>Summary</dt>
-    <dd>{{ show.summary }}</dd>
+      </div>
+      <hr class="my-4">
+      <span>
+        <dl class="list">
+        <dt>Summary :</dt>
+        <dd>{{ show.summary }}</dd>
+        <dt>Country : </dt>
+        <dd>{{ show.country }}</dd>
+        <dt>Premiere : </dt>
+        <dd>{{ show.premiere }}</dd>
+        <dt>Offsite : </dt>
+        <dd>{{ show.offsite }}</dd>
+        <dt>Rating :</dt>
+        <dd>{{ show.rating }}</dd>
+        </dl>
 
-    </dl>
+      </span>
+      <!-- <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          One of three columns
+        </div>
+        <div class="col-sm">
+          One of three columns
+        </div>
+        <div class="col-sm">
+          One of three columns
+        </div>
+      </div>
+</div> -->
+
+
   </div>
 
 </div>
