@@ -10,9 +10,7 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowSearchComponent implements OnInit {
   shows: any;
-  name = "coucou"
-  //search= "mary";
-  //@ViewChild('res') res;
+  name = "query"
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
