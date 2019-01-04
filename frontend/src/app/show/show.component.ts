@@ -8,8 +8,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class ShowComponent implements OnInit {
   shows: any;
+  res: string;
   constructor(private http: HttpClient) { }
-//  genre ="";
 
   ngOnInit() {
     this.http.get('http://localhost:8080/rest-in-pitch/rest/rand/12').subscribe(data => {
@@ -17,14 +17,10 @@ export class ShowComponent implements OnInit {
   });
   }
 
-  search(): void {
-    // let genre ;
-    // let ComedyCheck = (<HTMLInputElement>document.getElementById("customCheck1"));
-
-    let res : string = (<HTMLInputElement>document.getElementById("search")).value;
-    // let checkboxes = document.querySelectorAll('input[name="checkgenre"]:checked') as HTMLElement;
+  search() :void {
+     this.res = (<HTMLInputElement>document.getElementById("search")).value;
     let checkboxes = (<HTMLInputElement[]><any>document.getElementsByClassName('custom-control-input'));
-    let values = [];
+    let values : string[] = [];
 
     for (let i = 0 ; i < checkboxes.length; i++) {
       if (checkboxes[i].checked) {
@@ -32,16 +28,13 @@ export class ShowComponent implements OnInit {
       }
     }
 
-    console.log(values.length);
-    // if(genreCheck.checked == true) genre = "Comedy";
-  //  else genre = "";
-
     let params;
-
-    for (let i = 0; i < values.length; i++){
-      params = new HttpParams().set("name",res).set("genre",values[i]);
-    //  params.set("genre",values[i]);
+    if(values.length != 0) {
+      for (let i = 0; i < values.length; i++) {
+        params = new HttpParams().set("name",this.res).set("genre",values[i]);
+      }
     }
+    else params = new HttpParams().set("name",this.res);
 
     this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
     {params: params}).subscribe(data => {
