@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { ShowSearchComponent } from './show-search/show-search.component';
+import { UserCreateComponent } from './user-create/user-create.component';
 
 const appRoutes: Routes = [
   {
@@ -28,6 +29,11 @@ const appRoutes: Routes = [
     component: ShowSearchComponent,
     data: { title: 'Show Search' }
   },
+  {
+    path: 'user-create',
+    component: UserCreateComponent,
+    data: { title: 'Create User' }
+  },
   { path: '',
     redirectTo: '/show',
     pathMatch: 'full'
@@ -39,7 +45,8 @@ const appRoutes: Routes = [
     AppComponent,
     ShowComponent,
     ShowDetailComponent,
-    ShowSearchComponent
+    ShowSearchComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,

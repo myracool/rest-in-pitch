@@ -1,9 +1,16 @@
 
+
+
 <div class="jumbotron">
+  <span class="container">
+  <a [routerLink]="['/user-create']" class="btn btn-primary" role="button">Sign Up</a>
+  </span>
+
 <h1 class="display-3 text-center">Welcome ! This is Rest-In-Pitch</h1>
 <p class="lead text-center">...</p>
-  </div>
+</div>
 
+<!-- la searchbar -->
 <div class="container h-100">
     <div class="searchbar">
         <input class="search_input"  id="search" type="text" name="" placeholder="Search...">
@@ -12,6 +19,7 @@
 
      <hr class="my-4">
 
+      <!-- les checkbox  -->
      <div class="row">
       <div class="col-sm">
 
@@ -139,9 +147,13 @@
         <label class="custom-control-label" for="customCheck26">Western</label>
         </div>
     </div>
-    </div>
-  </div>
 
+  </div>
+  <!-- fin checkbox  -->
+</div>
+<!-- fin searchbar  -->
+
+<!-- affichage des series  -->
 <div class="container">
   <hr class="my-4">
   <div class="row" >

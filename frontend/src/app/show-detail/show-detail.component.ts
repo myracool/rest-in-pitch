@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
@@ -12,7 +13,7 @@ export class ShowDetailComponent implements OnInit {
 
   show = {};
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private location: Location) { }
 
   ngOnInit() {
     this.getShowDetail(this.route.snapshot.params['id']);
@@ -22,6 +23,10 @@ export class ShowDetailComponent implements OnInit {
    this.http.get('http://localhost:8080/rest-in-pitch/rest/show/'+id).subscribe( data => {
      this.show = data;
    });
+ }
+
+ backClicked() {
+   this.location.back();
  }
 
 }
