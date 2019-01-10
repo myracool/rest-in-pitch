@@ -17,6 +17,12 @@ export class ShowComponent implements OnInit {
   });
   }
 
+  getNextPage(page) {
+     this.http.get('http://localhost:8080/rest-in-pitch/rest/shows/page/'+page).subscribe( data => {
+       this.shows = data;
+     });
+   }
+
   search() :void {
      this.res = (<HTMLInputElement>document.getElementById("search")).value;
     let checkboxes = (<HTMLInputElement[]><any>document.getElementsByClassName('custom-control-input'));
