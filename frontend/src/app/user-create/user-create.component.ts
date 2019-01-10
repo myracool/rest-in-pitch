@@ -17,15 +17,15 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  // saveContact() {
-  //   this.http.post('/user', this.user)
-  //     .subscribe(res => {
-  //         this.router.navigate(['/user-detail', res]);
-  //       }, (err) => {
-  //         console.log(err);
-  //       }
-  //     );
-  // }
+  saveContact() {
+    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/', this.user)
+      .subscribe(res => {
+          this.router.navigate(['/show-detail', res]);
+        }, (err) => {
+          console.log(err);
+        }
+      );
+  }
 
   backClicked() {
     this.location.back();
