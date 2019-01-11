@@ -18,9 +18,9 @@ export class UserCreateComponent implements OnInit {
   }
 
   saveContact() {
-    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/', this.user)
+    this.http.post('http://localhost:8080/rest-in-pitch/rest/user', this.user)
       .subscribe(res => {
-          this.router.navigate(['/show-detail', res]);
+          this.router.navigate(['/show']);
         }, (err) => {
           console.log(err);
         }

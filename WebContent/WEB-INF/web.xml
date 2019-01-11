@@ -9,4 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+<!--    <servlet> -->
+<!--     <servlet-name>m2glrip.APIManager</servlet-name> -->
+<!--   </servlet> -->
+
+<!--   <servlet-mapping> -->
+<!--     <servlet-name>m2glrip.APIManager</servlet-name> -->
+<!--     <url-pattern>/rest/*</url-pattern> -->
+<!--   </servlet-mapping> -->
+  
+  
 </web-app>
