@@ -42,14 +42,14 @@ public class User {
 	public String saveToDb(){
 	    MongoClient mongoClient = new MongoClient();
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("rip");
-		    MongoCollection<Document> collection = db.getCollection("user");
+		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoCollection<Document> collection = db.getCollection("User");
 
 		    ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
 		    String jsonString = mapper.writeValueAsString(this);
 		    Document doc = Document.parse(jsonString);
 		    collection.insertOne(doc);
-		    return "User " + this.getUsername() + " " + " added successfully.";
+		    return this.getUsername() + " successfully registered.";
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {
