@@ -30,7 +30,7 @@ public class UserResource {
     public Response checkUser(User user) {
 		String res = user.login();
 		if (res != null) {
-			return Response.ok(res).build();
+			return Response.ok(user).build();
 		}
 		else {
 			return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
