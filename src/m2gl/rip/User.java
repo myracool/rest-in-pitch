@@ -15,8 +15,10 @@ public class User {
 	@JsonProperty("password")
 	private String password;
 	
+	public User() {
+	}
+	
 	public User(String username, String password) {
-		super();
 		this.username = username;
 		this.password = password;
 	}
@@ -40,8 +42,8 @@ public class User {
 	public String saveToDb(){
 	    MongoClient mongoClient = new MongoClient();
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("myBase");
-		    MongoCollection<Document> collection = db.getCollection("myCollection");
+		    MongoDatabase db = mongoClient.getDatabase("rip");
+		    MongoCollection<Document> collection = db.getCollection("user");
 
 		    ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
 		    String jsonString = mapper.writeValueAsString(this);
