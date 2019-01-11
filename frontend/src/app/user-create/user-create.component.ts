@@ -11,16 +11,27 @@ import { HttpClient } from '@angular/common/http';
 export class UserCreateComponent implements OnInit {
 
   user = {};
+  log = {};
 
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  saveContact() {
-    this.http.post('http://localhost:8080/rest-in-pitch/rest/user', this.user)
+  addUser() {
+    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/register', this.user)
       .subscribe(res => {
           this.router.navigate(['/show']);
+        }, (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  login() {
+    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/login', this.log,  { responseType: 'text'})
+      .subscribe(res => {
+        localStorage.setItem('currentUser', res);
+        this.router.navigate(['/show']);
         }, (err) => {
           console.log(err);
         }

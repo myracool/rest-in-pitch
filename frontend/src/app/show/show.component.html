@@ -1,6 +1,16 @@
 <div class="jumbotron">
   <span class="container">
+    <div *ngIf="user == null">
   <a [routerLink]="['/user-create']" class="btn btn-primary" role="button">Sign Up</a>
+  </div>
+
+  <div *ngIf="user != null">
+    <!-- <div *ngFor="let key of user "> -->
+      <h2>hello {{ username }}</h2>
+    <a (click)="logout()"class="btn btn-secondary" role="button">logout</a>
+  <!-- </div> -->
+</div>
+
   </span>
 
 <h1 class="display-3 text-center">Welcome ! This is Rest-In-Pitch</h1>

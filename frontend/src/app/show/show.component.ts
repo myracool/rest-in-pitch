@@ -9,9 +9,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class ShowComponent implements OnInit {
   shows: any;
   res: string;
+  isLogged : boolean;
+  user: {};
+  username: string;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.isLogged = false;
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    if(this.user != null) {
+      this.username = Object.values(this.user)[0];
+    }
+    
     this.http.get('http://localhost:8080/rest-in-pitch/rest/rand/12').subscribe(data => {
     this.shows = data;
   });
@@ -47,6 +56,11 @@ export class ShowComponent implements OnInit {
         this.shows = data;
       });
   }
+
+  logout(){
+    localStorage.clear();
+    window.location.reload();
+ }
 }
 
 // let params = new HttpParams().set("paramName",paramValue).set("paramName2", paramValue2); //Create new HttpParams

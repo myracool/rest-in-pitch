@@ -45,7 +45,6 @@ public class User {
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
 		    MongoCollection<Document> collection = db.getCollection("User");
-
 		    ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
 		    String jsonString = mapper.writeValueAsString(this);
 		    Document doc = Document.parse(jsonString);
