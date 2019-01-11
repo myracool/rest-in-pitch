@@ -16,7 +16,7 @@ public class UserResource {
     public Response addUser(User user) {
 		String res = user.saveToDb();
 		if (res != null) {
-			return Response.ok(res).build();
+			return Response.ok(user).build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("User already exists").build();
