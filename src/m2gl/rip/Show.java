@@ -186,27 +186,4 @@ public class Show {
 		this.summary = summary;
 	}
 	
-	public String saveToWatchlist(){
-	    MongoClient mongoClient = new MongoClient();
-		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
-		    MongoCollection<Document> collection = db.getCollection("Watchlist");
-		    ObjectMapper mapperShow = new MyObjectMapperProvider().getContext(Show.class);
-		    ObjectMapper mapperUser = new MyObjectMapperProvider().getContext(User.class);
-		    String jsonStringShow = mapperShow.writeValueAsString(this);
-		    String jsonStringUser = mapperUser.writeValueAsString(this);
-		    
-		    String jsonString = jsonStringUser+jsonStringShow;
-		    
-		    Document doc = Document.parse(jsonString);
-		    collection.insertOne(doc);
-		    return this.getName() + " successfully add to watchlist.";
-		} catch (Exception e) {
-		    e.printStackTrace();
-		} finally {
-		    mongoClient.close();
-		}
-		return null;
-	}
-	
 }

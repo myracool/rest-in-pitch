@@ -40,7 +40,7 @@ public class User {
 		this.password = password;
 	}
 	
-	public String saveToDb(){
+	public boolean saveToDb(){
 	    MongoClient mongoClient = new MongoClient();
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
@@ -49,16 +49,16 @@ public class User {
 		    String jsonString = mapper.writeValueAsString(this);
 		    Document doc = Document.parse(jsonString);
 		    collection.insertOne(doc);
-		    return this.getUsername() + " successfully registered.";
+		    return true;
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {
 		    mongoClient.close();
 		}
-		return null;
+		return false;
 	}
 	
-	public String login(){
+	public boolean login(){
 	    MongoClient mongoClient = new MongoClient();
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
@@ -69,14 +69,14 @@ public class User {
 		    Document doc = Document.parse(jsonString);
 		    FindIterable<Document> res = collection.find(doc);
 		    if (res.iterator().hasNext()) {
-		    	return this.getUsername() + " successfully logged in.";
+		    	return true;
 		    }
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {
 		    mongoClient.close();
 		}
-		return null;
+		return false;
 	}
 	
 	

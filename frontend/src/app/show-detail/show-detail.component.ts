@@ -11,7 +11,7 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowDetailComponent implements OnInit {
 
-  show = {};
+  show: {};
   user: {};
   username: string;
   userSize: number;
@@ -37,12 +37,12 @@ export class ShowDetailComponent implements OnInit {
  }
 
  addToWatchlist() {
-   let id =  Object.values(this.show)[0];
+  console.log(this.show);
+   let id = Object.values(this.show)[0];
    this.user = JSON.parse(localStorage.getItem('currentUser') ||'{}');
-   let params = new HttpParams().set("user",this.user).set("id",id);
-   this.http.post('http://localhost:8080/rest-in-pitch/rest/show/add', this.show,  { responseType: 'text'})
+   let params = new HttpParams().set("user", JSON.stringify(this.user));
+   this.http.post('http://localhost:8080/rest-in-pitch/rest/show/add/' + id, this.user,  { responseType: 'text'})
      .subscribe(res => {
-        console.log(res);
        }, (err) => {
          console.log(err);
        }

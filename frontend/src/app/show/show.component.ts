@@ -21,7 +21,7 @@ export class ShowComponent implements OnInit {
 
     console.log(Object.keys(this.user).length);
     if(this.user != null) {
-      this.username = Object.values(this.user)[0];
+      this.username = String(Object.values(this.user)[0]);
     }
 
     this.http.get('http://localhost:8080/rest-in-pitch/rest/rand/12').subscribe(data => {

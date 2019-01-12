@@ -14,8 +14,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-		String res = user.saveToDb();
-		if (res != null) {
+		if (user.saveToDb()) {
 			return Response.ok(user).build();
 		}
 		else {
@@ -28,8 +27,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response checkUser(User user) {
-		String res = user.login();
-		if (res != null) {
+		if (user.login()) {
 			return Response.ok(user).build();
 		}
 		else {

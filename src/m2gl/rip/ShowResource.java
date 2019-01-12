@@ -141,14 +141,33 @@ public class ShowResource {
     	throw new NotFoundException("Not found");
     }
 	
+	private boolean saveToWatchlist(String username, int id){
+		System.out.println("username : " + username);
+	    MongoClient mongoClient = new MongoClient();
+		try {
+		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoCollection<Document> collection = db.getCollection("Watchlist");
+		    
+		    String jsonString = "{\"username\":\"" + username + "\",\"showid\":" + id + "}";
+		    
+		    Document doc = Document.parse(jsonString);
+		    collection.insertOne(doc);
+		    return true;
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return false;
+	}
+	
 	@POST
-	@Path("/show/add")
+	@Path("/show/add/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-    public Response addUser(Show show) {
-		String res = show.saveToWatchlist();
-		if (res != null) {
-			return Response.ok(show).build();
+    public Response addUser(@PathParam("id") int id, User user) {
+		if (saveToWatchlist(user.getUsername(), id)) {
+			return Response.ok(user).build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show already in Watchlist").build();
