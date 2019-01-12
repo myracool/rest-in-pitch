@@ -27,8 +27,15 @@
         <dd>{{ show.rating }}</dd>
         </dl>
       </span>
+      <div *ngIf="user == null || userSize === 0">
       <a (click)="backClicked()" class="btn btn-primary" role="button">Go Back</a>
-
+      </div>
+      
+      <div>
+      <div *ngIf="userSize > 0">
+        <a (click)="backClicked()" class="btn btn-primary" role="button">Go Back</a>
+        <a (click)="addToWatchlist()" class="btn btn-success" role="button">Add to Watchlist</a>
+      </div>
   </div>
 
 </div>

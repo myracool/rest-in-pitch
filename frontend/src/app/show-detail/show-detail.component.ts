@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,10 +12,17 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 export class ShowDetailComponent implements OnInit {
 
   show = {};
+  user: {};
+  username: string;
+  userSize: number;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private location: Location) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser') ||'{}');
+
+    this.userSize = Object.keys(this.user).length;
+
     this.getShowDetail(this.route.snapshot.params['id']);
   }
 
@@ -27,6 +34,19 @@ export class ShowDetailComponent implements OnInit {
 
  backClicked() {
    this.location.back();
+ }
+
+ addToWatchlist() {
+   let id =  Object.values(this.show)[0];
+   this.user = JSON.parse(localStorage.getItem('currentUser') ||'{}');
+   let params = new HttpParams().set("user",this.user).set("id",id);
+   this.http.post('http://localhost:8080/rest-in-pitch/rest/show/add', this.show,  { responseType: 'text'})
+     .subscribe(res => {
+        console.log(res);
+       }, (err) => {
+         console.log(err);
+       }
+     );
  }
 
 }

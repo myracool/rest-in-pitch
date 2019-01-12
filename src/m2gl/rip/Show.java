@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.jsoup.Jsoup;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 import m2gl.tvmaze.TVMazeShow;
 
@@ -179,6 +184,29 @@ public class Show {
 	@JsonProperty("summary")
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	
+	public String saveToWatchlist(){
+	    MongoClient mongoClient = new MongoClient();
+		try {
+		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoCollection<Document> collection = db.getCollection("Watchlist");
+		    ObjectMapper mapperShow = new MyObjectMapperProvider().getContext(Show.class);
+		    ObjectMapper mapperUser = new MyObjectMapperProvider().getContext(User.class);
+		    String jsonStringShow = mapperShow.writeValueAsString(this);
+		    String jsonStringUser = mapperUser.writeValueAsString(this);
+		    
+		    String jsonString = jsonStringUser+jsonStringShow;
+		    
+		    Document doc = Document.parse(jsonString);
+		    collection.insertOne(doc);
+		    return this.getName() + " successfully add to watchlist.";
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return null;
 	}
 	
 }

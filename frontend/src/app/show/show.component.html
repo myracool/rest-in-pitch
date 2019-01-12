@@ -1,20 +1,24 @@
 <div class="jumbotron">
-  <span class="container">
-    <div *ngIf="user == null">
-  <a [routerLink]="['/user-create']" class="btn btn-primary" role="button">Sign Up</a>
-  </div>
+  <!-- <span class="container"> -->
+    <div class="row">
+      <div class="col-1">
+      <div *ngIf="user == null || userSize === 0">
+        <a [routerLink]="['/user-create']" class="btn btn-primary" role="button">Sign Up</a>
+      </div>
 
-  <div *ngIf="user != null">
-    <!-- <div *ngFor="let key of user "> -->
-      <h2>hello {{ username }}</h2>
-    <a (click)="logout()"class="btn btn-secondary" role="button">logout</a>
-  <!-- </div> -->
+      <div class="list-group" *ngIf="userSize > 0">
+        <p  class="list-group-item list-group-item-action active">
+          Hi {{ username}}</p>
+        <a (click)="watchlist()" class="list-group-item list-group-item-action" role ="button">Watchlist</a>
+        <a (click)="logout()" class="list-group-item list-group-item-action" role="button">Logout</a>
+      </div>
+    </div>
+  <div class="col-11">
+  <h1 class="display-3 text-center">This is Rest-In-Pitch</h1>
+  <!-- <p class="lead text-center">...</p> -->
+</div>
 </div>
 
-  </span>
-
-<h1 class="display-3 text-center">Welcome ! This is Rest-In-Pitch</h1>
-<p class="lead text-center">...</p>
 </div>
 
 <!-- la searchbar -->
@@ -163,6 +167,7 @@
 <!-- affichage des series  -->
 <div class="container">
   <hr class="my-4">
+  <h2>Suggestions :</h2>
   <div class="row" >
     <div class="col-3 mb-2" *ngFor="let show of shows">
       <div class="card text-white bg-secondary mb-3" style="width: 13.1rem; height: 24rem;" >
@@ -178,11 +183,11 @@
    </div>
  </div>
 </div>
-<div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+<!-- <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
   <div class="btn-group mr-2" role="group" aria-label="First group">
     <a (click)="getNextPage(1)"class="btn btn-secondary" role="button">1</a>
     <a (click)="getNextPage(2)"class="btn btn-secondary" role="button">2</a>
     <a (click)="getNextPage(3)"class="btn btn-secondary" role="button">3</a>
     <a (click)="getNextPage(4)"class="btn btn-secondary" role="button">4</a>
   </div>
-</div>
+</div> -->
