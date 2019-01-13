@@ -12,6 +12,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { ShowSearchComponent } from './show-search/show-search.component';
 import { UserCreateComponent } from './user-create/user-create.component';
+import { WatchlistComponent } from './watchlist/watchlist.component';
 
 const appRoutes: Routes = [
   {
@@ -34,6 +35,11 @@ const appRoutes: Routes = [
     component: UserCreateComponent,
     data: { title: 'Create User' }
   },
+  {
+    path: 'watchlist',
+    component: WatchlistComponent,
+    data: { title: 'Watchlist' }
+  },
   { path: '',
     redirectTo: '/show',
     pathMatch: 'full'
@@ -46,7 +52,8 @@ const appRoutes: Routes = [
     ShowComponent,
     ShowDetailComponent,
     ShowSearchComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    WatchlistComponent
   ],
   imports: [
     BrowserModule,

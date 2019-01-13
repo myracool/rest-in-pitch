@@ -60,12 +60,15 @@ export class ShowComponent implements OnInit {
       });
   }
 
-  watchlist() {
-    this.http.get('http://localhost:8080/rest-in-pitch/rest/watchlist').subscribe(data => {
-      console.log(data)
-        this.shows = data;
-        });
-  }
+  // watchlist() {
+  //   this.http.post('http://localhost:8080/rest-in-pitch/rest/watchlist', this.user).subscribe(data => {
+  //         //this.router.navigate(['/show']);
+  //         this.shows = data;
+  //       }, (err) => {
+  //         console.log(err);
+  //       }
+  //     );
+  // }
 
   logout(){
     localStorage.clear();

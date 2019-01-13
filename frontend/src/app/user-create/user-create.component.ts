@@ -18,10 +18,17 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {}
 
   addUser() {
-    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/register', this.user)
-      .subscribe(res => {
-          this.router.navigate(['/show']);
-        }, (err) => {
+    this.http.post('http://localhost:8080/rest-in-pitch/rest/user/register', this.user).subscribe(res => {
+        // login :
+        this.http.post('http://localhost:8080/rest-in-pitch/rest/user/login', this.user,  { responseType: 'text'})
+          .subscribe(res => {
+            localStorage.setItem('currentUser', res);
+            this.router.navigate(['/show']);
+            }, (err) => {
+              console.log(err);
+            }
+          );
+      }, (err) => {
           console.log(err);
         }
       );
