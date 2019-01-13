@@ -1,5 +1,8 @@
 package m2gl.rip;
 
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidParameterException;
@@ -94,7 +97,7 @@ public class ShowResource {
 	}
 	
 	@GET
-	@Path("/search")
+	@Path("shows/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Show> search(@QueryParam("name") String name, @QueryParam("genre") List<String> genre) {
 		ObjectMapper mapper = new MyObjectMapperProvider().getContext(Properties.class);
@@ -118,7 +121,7 @@ public class ShowResource {
 	}
 
 	@GET
-	@Path("/rand/{n}")
+	@Path("shows/random/{n}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
     public List<Show> getRand(@PathParam("n") int n, List<Integer> arr) {
@@ -141,18 +144,30 @@ public class ShowResource {
     	throw new NotFoundException("Not found");
     }
 	
-	private boolean saveToWatchlist(String username, int id){
-		System.out.println("username : " + username);
+	private boolean userExists(String username) {
+		MongoClient mongoClient = new MongoClient();
+		try {
+		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoCollection<Document> collection = db.getCollection("User");
+		    Document search = collection.find(eq("username", username)).first();
+		    return (search != null);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return false;
+	}
+	
+	private boolean isInWatchlist(String username, int id) {
 	    MongoClient mongoClient = new MongoClient();
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
 		    MongoCollection<Document> collection = db.getCollection("Watchlist");
-		    
-		    String jsonString = "{\"username\":\"" + username + "\",\"showid\":" + id + "}";
-		    
-		    Document doc = Document.parse(jsonString);
-		    collection.insertOne(doc);
-		    return true;
+		    Document search = collection.find(and(eq("username", username), eq("showid", id))).first();
+		    if (search != null) {
+		    	return true;
+		    }
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {
@@ -162,41 +177,79 @@ public class ShowResource {
 	}
 	
 	@POST
-	@Path("/show/add/{id}")
+	@Path("/watchlist/check/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-    public Response addUser(@PathParam("id") int id, User user) {
+    public Response isShowInWatchlist(@PathParam("id") int id, User user) {
+		boolean res = isInWatchlist(user.getUsername(), id);
+		return Response.ok(res).status(201).build();
+    }
+	
+	private boolean saveToWatchlist(String username, int id) {
+	    MongoClient mongoClient = new MongoClient();
+		try {
+			if (!isInWatchlist(username, id) && userExists(username)) {
+			    MongoDatabase db = mongoClient.getDatabase("RIP");
+			    MongoCollection<Document> collection = db.getCollection("Watchlist");
+			    String jsonString = "{\"username\":\"" + username + "\",\"showid\":" + id + "}";
+			    Document doc = Document.parse(jsonString);
+			    collection.insertOne(doc);
+			    return true;
+			}
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return false;
+	}
+	
+	@POST
+	@Path("/watchlist/add/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+    public Response addShowToWatchlist(@PathParam("id") int id, User user) {
 		if (saveToWatchlist(user.getUsername(), id)) {
-			return Response.ok(user).build();
+			return Response.ok(user).status(201).build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show already in Watchlist").build();
 		}
     }
 	
-	/*@GET
+	private ArrayList<Integer> getWatchlistIds(String username) {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+	    MongoClient mongoClient = new MongoClient();
+		try {
+		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoCollection<Document> collection = db.getCollection("Watchlist");
+		    Iterable<Document> search = collection.find(eq("username", username));
+		    for (Document doc : search) {
+		    	Integer id = doc.getInteger("showid");
+		    	if (id != null) {
+		    		ids.add(id);
+		    	}
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return ids;
+	}
+	
+	@POST
 	@Path("/watchlist")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Show> disp() {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArrayList<Show> getWatchlist(User user) {
 		ArrayList<Show> shows = new ArrayList<Show>();
-		MongoClient mongoClient = new MongoClient();
-		
-		  try {
-			  MongoDatabase database = mongoClient.getDatabase("RIP");
-			  MongoCollection<Document> collection = database.getCollection("Watchlist");
-			  ArrayList<Document> showsdb = collection.find().into(new ArrayList<Document>()); 
-			  for(Document show : showsdb) {
-				  Show s = new Show(show.getLong("id"), show.getString("name"),null, show.getString("premiere"), 
-						  			show.getString("offsite"), 0, show.getString("network"), 
-						  			show.getString("country"), show.getString("image"), show.getString("summary") );
-				  shows.add(s);
-			 }  
-		  } catch (Exception e) {
-			  e.printStackTrace();
-		  }finally {
-			 mongoClient.close();
-		  }
-		  return shows;
-	    }*/
-	
+		ArrayList<Integer> ids = getWatchlistIds(user.getUsername());
+		for (Integer i : ids) {
+			Show s = getShow(i);
+			shows.add(s);
+		}
+		return shows;
+	}
+
 }

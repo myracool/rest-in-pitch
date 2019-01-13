@@ -20,7 +20,7 @@ export class ShowSearchComponent implements OnInit {
   }
 
   getSearchShow(query) {
-    this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
+    this.http.get('http://localhost:8080/rest-in-pitch/rest/shows/search',
     {
       params: {'name' : query}
       }).subscribe(data => {

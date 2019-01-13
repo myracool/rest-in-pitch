@@ -1,5 +1,7 @@
 package m2gl.rip;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import org.bson.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,11 +47,15 @@ public class User {
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
 		    MongoCollection<Document> collection = db.getCollection("User");
-		    ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
-		    String jsonString = mapper.writeValueAsString(this);
-		    Document doc = Document.parse(jsonString);
-		    collection.insertOne(doc);
-		    return true;
+		    
+		    Document search = collection.find(eq("username", getUsername())).first();
+		    if (search == null) {		    
+		    	ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
+		    	String jsonString = mapper.writeValueAsString(this);
+		    	Document doc = Document.parse(jsonString);
+		    	collection.insertOne(doc);
+		    	return true;
+		    }
 		} catch (Exception e) {
 		    e.printStackTrace();
 		} finally {

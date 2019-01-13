@@ -40,7 +40,7 @@ export class ShowDetailComponent implements OnInit {
    let id = Object.values(this.show)[0];
    this.user = JSON.parse(localStorage.getItem('currentUser') ||'{}');
    let params = new HttpParams().set("user", JSON.stringify(this.user));
-   this.http.post('http://localhost:8080/rest-in-pitch/rest/show/add/' + id, this.user,  { responseType: 'text'})
+   this.http.post('http://localhost:8080/rest-in-pitch/rest/watchlist/add/' + id, this.user,  { responseType: 'text'})
      .subscribe(res => {
        }, (err) => {
          console.log(err);

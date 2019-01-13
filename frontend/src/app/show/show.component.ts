@@ -24,7 +24,7 @@ export class ShowComponent implements OnInit {
       this.username = String(Object.values(this.user)[0]);
     }
 
-    this.http.get('http://localhost:8080/rest-in-pitch/rest/rand/12').subscribe(data => {
+    this.http.get('http://localhost:8080/rest-in-pitch/rest/shows/random/12').subscribe(data => {
     this.shows = data;
   });
   }
@@ -54,7 +54,7 @@ export class ShowComponent implements OnInit {
     }
     else params = new HttpParams().set("name",this.res);
 
-    this.http.get('http://localhost:8080/rest-in-pitch/rest/search',
+    this.http.get('http://localhost:8080/rest-in-pitch/rest/shows/search',
     {params: params}).subscribe(data => {
         this.shows = data;
       });
