@@ -11,7 +11,7 @@ import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 
 export class ShowDetailComponent implements OnInit {
 
-  show: {};
+  show= {};
   user: {};
   username: string;
   userSize: number;
@@ -37,7 +37,6 @@ export class ShowDetailComponent implements OnInit {
  }
 
  addToWatchlist() {
-  console.log(this.show);
    let id = Object.values(this.show)[0];
    this.user = JSON.parse(localStorage.getItem('currentUser') ||'{}');
    let params = new HttpParams().set("user", JSON.stringify(this.user));
