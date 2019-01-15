@@ -19,7 +19,7 @@ public class User {
 	@JsonProperty("password")
 	private String password;
 	
-	public static MongoClientURI DB_URI = new MongoClientURI("mongodb://Rest-In-Pitch:22octobre1995@ds013559.mlab.com:13559/rest-in-pitch");
+	protected static MongoClientURI DB_URI = new MongoClientURI("mongodb://Rest-In-Pitch:22octobre1995@ds013559.mlab.com:13559/rest-in-pitch");
 	
 	public User() {
 	}
