@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.stream.StreamSupport;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -145,7 +146,7 @@ public class ShowResource {
     }
 	
 	private boolean userExists(String username) {
-		MongoClient mongoClient = new MongoClient();
+		MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
 		    MongoCollection<Document> collection = db.getCollection("User");
@@ -160,7 +161,7 @@ public class ShowResource {
 	}
 	
 	private boolean isInWatchlist(String username, int id) {
-	    MongoClient mongoClient = new MongoClient();
+	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 		    MongoDatabase db = mongoClient.getDatabase("RIP");
 		    MongoCollection<Document> collection = db.getCollection("Watchlist");
@@ -186,7 +187,7 @@ public class ShowResource {
     }
 	
 	private boolean saveToWatchlist(String username, int id) {
-	    MongoClient mongoClient = new MongoClient();
+	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 			if (!isInWatchlist(username, id) && userExists(username)) {
 			    MongoDatabase db = mongoClient.getDatabase("RIP");
@@ -214,6 +215,38 @@ public class ShowResource {
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show already in Watchlist").build();
+		}
+    }
+	
+	private boolean removeFromWatchlist(String username, int id) {
+	    MongoClient mongoClient = new MongoClient(User.DB_URI);
+		try {
+			if (isInWatchlist(username, id) && userExists(username)) {
+			    MongoDatabase db = mongoClient.getDatabase("RIP");
+			    MongoCollection<Document> collection = db.getCollection("Watchlist");
+			    Document search = collection.findOneAndDelete(and(eq("username", username), eq("showid", id)));
+			    if (search != null) {
+			    	return true;
+			    }
+			}
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    mongoClient.close();
+		}
+		return false;
+	}
+	
+	@DELETE
+	@Path("/watchlist/remove/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+    public Response removeShowFromWatchlist(@PathParam("id") int id, User user) {
+		if (removeFromWatchlist(user.getUsername(), id)) {
+			return Response.ok(user).status(201).build();
+		}
+		else {
+			return Response.status(Response.Status.CONFLICT).entity("Show not found in Watchlist").build();
 		}
     }
 	
