@@ -15,6 +15,7 @@ import java.util.stream.StreamSupport;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -148,7 +149,7 @@ public class ShowResource {
 	private boolean userExists(String username) {
 		MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("User");
 		    Document search = collection.find(eq("username", username)).first();
 		    return (search != null);
@@ -163,7 +164,7 @@ public class ShowResource {
 	private boolean isInWatchlist(String username, int id) {
 	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("Watchlist");
 		    Document search = collection.find(and(eq("username", username), eq("showid", id))).first();
 		    if (search != null) {
@@ -190,7 +191,7 @@ public class ShowResource {
 	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 			if (!isInWatchlist(username, id) && userExists(username)) {
-			    MongoDatabase db = mongoClient.getDatabase("RIP");
+			    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 			    MongoCollection<Document> collection = db.getCollection("Watchlist");
 			    String jsonString = "{\"username\":\"" + username + "\",\"showid\":" + id + "}";
 			    Document doc = Document.parse(jsonString);
@@ -209,9 +210,13 @@ public class ShowResource {
 	@Path("/watchlist/add/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+    //public Response addShowToWatchlist(@HeaderParam("Authorization") String auth, @PathParam("id") int id) {
     public Response addShowToWatchlist(@PathParam("id") int id, User user) {
+		/*ObjectMapper mapper = new MyObjectMapperProvider().getContext(Properties.class);
+		System.out.println(auth);
+		User user = mapper.convertValue(auth, User.class);*/
 		if (saveToWatchlist(user.getUsername(), id)) {
-			return Response.ok(user).status(201).build();
+			return Response.ok("Show added to watchlist").status(201).build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show already in Watchlist").build();
@@ -222,7 +227,7 @@ public class ShowResource {
 	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 			if (isInWatchlist(username, id) && userExists(username)) {
-			    MongoDatabase db = mongoClient.getDatabase("RIP");
+			    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 			    MongoCollection<Document> collection = db.getCollection("Watchlist");
 			    Document search = collection.findOneAndDelete(and(eq("username", username), eq("showid", id)));
 			    if (search != null) {
@@ -254,7 +259,7 @@ public class ShowResource {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 	    MongoClient mongoClient = new MongoClient();
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("Watchlist");
 		    Iterable<Document> search = collection.find(eq("username", username));
 		    for (Document doc : search) {
