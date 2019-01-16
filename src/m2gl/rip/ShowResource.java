@@ -280,9 +280,14 @@ public class ShowResource {
 	@Path("/watchlist")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ArrayList<Integer> getWatchlist(User user) {
+	public ArrayList<Show> getWatchlist(User user) {
+		ArrayList<Show> shows = new ArrayList<Show>();
 		ArrayList<Integer> ids = getWatchlistIds(user.getUsername());
-		return ids;
+		for (Integer i : ids) {
+			Show s = getShow(i);
+			shows.add(s);
+		}
+		return shows;
 	}
 
 }
