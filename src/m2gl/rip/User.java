@@ -20,6 +20,7 @@ public class User {
 	private String password;
 	
 	protected static MongoClientURI DB_URI = new MongoClientURI("mongodb://Rest-In-Pitch:22octobre1995@ds013559.mlab.com:13559/rest-in-pitch");
+	protected static String DB_NAME = "rest-in-pitch";
 	
 	public User() {
 	}
@@ -48,7 +49,7 @@ public class User {
 	public boolean saveToDb(){
 	    MongoClient mongoClient = new MongoClient(DB_URI);
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoDatabase db = mongoClient.getDatabase(DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("User");
 		    
 		    Document search = collection.find(eq("username", getUsername())).first();
@@ -70,7 +71,7 @@ public class User {
 	public boolean login(){
 	    MongoClient mongoClient = new MongoClient(DB_URI);
 		try {
-		    MongoDatabase db = mongoClient.getDatabase("RIP");
+		    MongoDatabase db = mongoClient.getDatabase(DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("User");
 
 		    ObjectMapper mapper = new MyObjectMapperProvider().getContext(User.class);
