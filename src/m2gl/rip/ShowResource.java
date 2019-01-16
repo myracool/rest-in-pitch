@@ -257,7 +257,7 @@ public class ShowResource {
 	
 	private ArrayList<Integer> getWatchlistIds(String username) {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
-	    MongoClient mongoClient = new MongoClient();
+	    MongoClient mongoClient = new MongoClient(User.DB_URI);
 		try {
 		    MongoDatabase db = mongoClient.getDatabase(User.DB_NAME);
 		    MongoCollection<Document> collection = db.getCollection("Watchlist");
@@ -282,13 +282,11 @@ public class ShowResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ArrayList<Show> getWatchlist(User user) {
 		ArrayList<Show> shows = new ArrayList<Show>();
-		/*ArrayList<Integer> ids = getWatchlistIds(user.getUsername());
+		ArrayList<Integer> ids = getWatchlistIds(user.getUsername());
 		for (Integer i : ids) {
 			Show s = getShow(i);
 			shows.add(s);
-		}*/
-		shows.add(getShow(4));
-		shows.add(getShow(1));
+		}
 		return shows;
 	}
 
