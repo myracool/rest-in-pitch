@@ -248,7 +248,7 @@ public class ShowResource {
 			return Response.ok("Show successfully removed").build();
 		}
 		else {
-			return Response.status(Response.Status.CONFLICT).entity("Show not found in Watchlist").build();
+			return Response.status(Response.Status.NOT_FOUND).entity("Show not found in Watchlist").build();
 		}
     }
 	
