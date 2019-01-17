@@ -210,11 +210,7 @@ public class ShowResource {
 	@Path("/watchlist/add/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-    //public Response addShowToWatchlist(@HeaderParam("Authorization") String auth, @PathParam("id") int id) {
     public Response addShowToWatchlist(@PathParam("id") int id, User user) {
-		/*ObjectMapper mapper = new MyObjectMapperProvider().getContext(Properties.class);
-		System.out.println(auth);
-		User user = mapper.convertValue(auth, User.class);*/
 		if (saveToWatchlist(user.getUsername(), id)) {
 			return Response.ok("Show added to watchlist").status(201).build();
 		}
@@ -248,7 +244,7 @@ public class ShowResource {
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response removeShowFromWatchlist(@PathParam("id") int id, User user) {
 		if (removeFromWatchlist(user.getUsername(), id)) {
-			return Response.ok(user).status(201).build();
+			return Response.ok("Show successfully removed").build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show not found in Watchlist").build();
