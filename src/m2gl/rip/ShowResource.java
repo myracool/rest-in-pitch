@@ -16,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -143,7 +144,7 @@ public class ShowResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	throw new NotFoundException("Not found");
+    	throw new InternalServerErrorException("Internal server error");
     }
 	
 	private boolean userExists(String username) {
@@ -180,7 +181,7 @@ public class ShowResource {
 	
 	@POST
 	@Path("/watchlist/check/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response isShowInWatchlist(@PathParam("id") int id, User user) {
 		boolean res = isInWatchlist(user.getUsername(), id);
@@ -207,8 +208,8 @@ public class ShowResource {
 	}
 	
 	@POST
-	@Path("/watchlist/add/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/watchlist/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response addShowToWatchlist(@PathParam("id") int id, User user) {
 		if (saveToWatchlist(user.getUsername(), id)) {
@@ -239,8 +240,8 @@ public class ShowResource {
 	}
 	
 	@DELETE
-	@Path("/watchlist/remove/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/watchlist/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response removeShowFromWatchlist(@PathParam("id") int id, User user) {
 		if (removeFromWatchlist(user.getUsername(), id)) {

@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 public class UserResource {
 	@POST
 	@Path("/register")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
 		if (user.saveToDb()) {
@@ -24,7 +24,7 @@ public class UserResource {
 	
 	@POST
 	@Path("/login")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response checkUser(User user) {
 		if (user.login()) {
