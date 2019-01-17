@@ -243,8 +243,8 @@ public class ShowResource {
 	@Path("/watchlist/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-    public Response removeShowFromWatchlist(@PathParam("id") int id) {
-		if (removeFromWatchlist("alban", id)) {
+    public Response removeShowFromWatchlist(@PathParam("id") int id, User user) {
+		if (removeFromWatchlist(user.getUsername(), id)) {
 			return Response.ok("Show successfully removed").build();
 		}
 		else {
