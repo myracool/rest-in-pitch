@@ -244,12 +244,13 @@ public class ShowResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response removeShowFromWatchlist(@PathParam("id") int id, User user) {
-		if (removeFromWatchlist(user.getUsername(), id)) {
+		return Response.ok("Show successfully removed").build();
+		/*if (removeFromWatchlist(user.getUsername(), id)) {
 			return Response.ok("Show successfully removed").build();
 		}
 		else {
 			return Response.status(Response.Status.CONFLICT).entity("Show not found in Watchlist").build();
-		}
+		}*/
     }
 	
 	private ArrayList<Integer> getWatchlistIds(String username) {
